@@ -1,0 +1,12 @@
+<div>
+    <p>
+        <strong>Commenter:</strong>
+        <%= (User.find(comment.user_id)).name %>
+    </p>
+
+    <p>
+        <strong>Comment:</strong>
+        <%= comment.comment %>
+    </p>
+
+</div>

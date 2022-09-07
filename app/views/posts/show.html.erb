@@ -1,0 +1,59 @@
+<p style="color: green"><%= notice %></p>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+
+  <style>
+    div{
+      text-align:center;
+    }
+    .bg{
+      background-color: #000000; /* Green */
+      color: #ffffff;
+    }
+  </style>
+
+  <body>
+    <div>
+      <%= render @post %>
+    </div>
+
+
+
+    <div>
+      <%= link_to "Edit this post", edit_post_path(@post) %> |
+      <%= link_to "Back to posts", posts_path %>
+      <%= button_to "Destroy this post", @post, method: :delete %>
+    </div>
+
+    <div>
+      <h2>Comments</h2>
+    </div>
+
+    <%= render @post.comments %>
+
+    <div>
+      <h3>Add a comment:</h3>
+      <%= form_with model: [ @post, @post.comments.build ] do |form| %>
+        <p>
+          <%= form.label :comment %><br>
+          <%= form.text_area :comment %>
+        </p>
+        <p>
+          <%= form.submit %>
+        </p>
+      <% end %>
+    </div>
+   
+
+   
+  </body>
+</html>

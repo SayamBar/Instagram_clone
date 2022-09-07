@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+
+  <div class="jumbotron" style="color: brown">
+    <h1>Posts</h1>
+  </div>
+
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    table.center{
+      margin-left: auto; 
+      margin-right: auto;
+    }
+    div{
+      text-align:center; 
+    }
+    .bg{
+      background-color: #1abc9c; /* Green */
+      color: #ffffff;
+    }
+  </style>
+
+  <body>
+
+    <div>
+      <% @posts.each do |post| %>
+        <p><%= User.find(post.user_id).email %></p>
+        <p><%= post.caption %></p>
+          <% if post.image.attached? %>
+            <%= link_to image_tag(post.image, style:'width:300px'), post %>
+          <% end %>
+        
+      <% end %>
+    
+      <%= link_to "New post", new_post_path %>
+    </div>
+  </body>
+</html>

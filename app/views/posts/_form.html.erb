@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+  div{
+    text-align:center;
+  }
+</style>
+
+<%= form_with(model: post) do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :caption, style: "display: block" %>
+    <%= form.text_field :caption %>
+  </div>
+
+  <div>
+    <% if @post.image.attached? %>
+      <%= image_tag(post.image) %>
+    <% end %>
+    <%= form.label :image, style: "display: block"  %>
+    <%= form.file_field :image, class: "form-control" %>
+  </div>
+
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+</html>
