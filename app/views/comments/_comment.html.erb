@@ -1,12 +1,13 @@
 <div>
     <p>
-        <strong>Commenter:</strong>
-        <%= (User.find(comment.user_id)).name %>
+        <strong><%= (User.find(comment.user_id)).name %></strong>
+        <%= comment.created_at %>
     </p>
-
     <p>
-        <strong>Comment:</strong>
         <%= comment.comment %>
     </p>
-
+    <div>
+      <%= button_to 'Like', comment_likes_path(comment), method: :post %>
+      <p><%= comment.likes.count %> <%= (comment.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+    </div>
 </div>

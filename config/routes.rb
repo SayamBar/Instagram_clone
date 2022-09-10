@@ -3,9 +3,17 @@ Rails.application.routes.draw do
   # resources :users do
     resources :posts do
       resources :comments
-    # end
+    end
+
+    
+  # end
+  resources :posts do
+    resources :likes
   end
-  
+
+  resources :comments do
+    resources :likes
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

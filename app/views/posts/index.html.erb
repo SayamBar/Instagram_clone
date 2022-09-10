@@ -7,17 +7,12 @@
 </style>
 
 <div class="jumbotron" style="color: brown">
-  <h1>Posts</h1>
+  <h1>Instagram Clone</h1>
 </div>
 
 <div id="posts">
   <% @posts.each do |post| %>
-    
     <%= render post %>
-    
-    
   <% end %>
-
-
-<%= link_to "New post", new_post_path %>
+  <%= link_to "New post", new_post_path %>
 </div>
