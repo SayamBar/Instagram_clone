@@ -3,8 +3,15 @@ class PostsController < UsersController
   before_action :set_post, only: %i[ show edit update destroy ]
 
   # GET /posts or /posts.json
+  
+
   def index
-    @posts = Post.all
+    # @posts = Post.all
+
+      @page = (params[:page] || 1).to_i
+      @per = (params[:per] || 1).to_i
+      @posts = Post.offset(@per * (@page - 1)).limit(@per)
+    
   end
 
   # GET /posts/1 or /posts/1.json
