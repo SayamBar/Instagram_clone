@@ -6,11 +6,11 @@ class PostsController < UsersController
   
 
   def index
-    # @posts = Post.all
+    @posts = Post.all
 
-      @page = (params[:page] || 1).to_i
-      @per = (params[:per] || 1).to_i
-      @posts = Post.offset(@per * (@page - 1)).limit(@per)
+      # @page = (params[:page] || 1).to_i
+      # @per = (params[:per] || 1).to_i
+      # @posts = Post.offset(@per * (@page - 1)).limit(@per)
     
   end
 

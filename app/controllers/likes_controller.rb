@@ -2,18 +2,10 @@ class LikesController < ApplicationController
     before_action :find 
     def create
         if(params[:post_id])
-            if already_post_liked?
-                flash[:notice] = "You can't like more than once"
-            else
-                @post.likes.create(user_id: current_user.id)
-            end
+            @post.likes.create(user_id: current_user.id)
             redirect_to post_path(@post)
         else
-            if already_comment_liked?
-                flash[:notice] = "You can't like more than once"
-            else
-                @comment.likes.create(user_id: current_user.id)
-            end
+            @comment.likes.create(user_id: current_user.id)
             post = Post.find(@comment.post_id)
             redirect_to post_path(post)
         end
@@ -25,13 +17,7 @@ class LikesController < ApplicationController
             else
                 @comment = Comment.find(params[:comment_id])
             end
-        end
-        def already_post_liked?
-            Like.where(user_id: current_user.id,likeable_type: "Post").exists?
-        end 
-        def already_comment_liked?
-            Like.where(user_id: current_user.id,likeable_type: "Comment").exists?
-        end     
+        end   
 end
 
 

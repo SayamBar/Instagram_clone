@@ -9,36 +9,17 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
 
-table.center{
-  margin-left: auto; 
-  margin-right: auto;
-}
-div{
-  text-align:center; 
-}
-.image{
-  width:400px; 
-  height:auto;
-}
-</style>
 
-<div id="<%= dom_id post %>">
 
 <div>
-  <p><strong>User :<%= User.find(post.user_id).name %></strong></p>
-  <%= post.created_at %>
-  <p>Caption :<%= post.caption %></p>
+  <h4><strong><%= User.find(post.user_id).name %></strong></h4>
+  <%= (post.created_at)  %>
+  <div class="fluid"><h6><%= post.caption %></h6></div>
+
   <% if post.image.attached? %>
-      <%= link_to image_tag(post.image, style:'width:300px'),post %>
-  <% end %>
-  
-</div>
+      <%= link_to image_tag(post.image,class: "img-fluid"),post %>
+  <% end %> 
 </div>
 
 

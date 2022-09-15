@@ -1,32 +1,41 @@
-<p style="color: green"><%= notice %></p>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Instagram</title>
+<%= csrf_meta_tags %>
+<%= stylesheet_link_tag 'application',media:'all', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'application','data-turbolinks-track': 'reload' %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+  
 
-<style>
-  div{
-    text-align:center;
-  }
-</style>
-
-
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-  <% end %>
-  <%= link_to "New post", new_post_path %>
-  <div>
-   <ul class="pager">
-      <li class="previous <%= @page == 1 ? 'disabled' : '' %>">
-        <div class="center">
-          <%= link_to_if @page > 1, "<< Previous", posts_path(page: @page - 1) %>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 ">
+          <% @posts.each do |post| %>
+            <div class="border">
+            <%= render post %><br>
+            <% if (Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: post.id).exists?) %>
+              <%= button_to "Love", post_likes_path(post), method: :post,class: "btn btn-primary disabled" %>
+            <% else %>
+              <%= button_to "Love", post_likes_path(post), method: :post,class: "btn btn-primary" %>
+            <% end %>
+            <%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%>
+            <%= form_with model: [ post, post.comments.build ] do |form| %>
+              <%= form.text_field :comment, placeholder: "Add a comment" %>
+              <%= form.submit %>
+            <% end %>
+            </div>
+          <% end %>
         </div>
-      </li>
-
-      <li class="next <%= @page == (Post.count % @per == 0 ? Post.count / @per : (Post.count / @per) + 1) ? 'disabled' : '' %>">
-          <div class="center">
-            <%= link_to_if @page < (Post.count % @per == 0 ? Post.count / @per : (Post.count / @per) + 1), "Next >>", posts_path(page: @page + 1) %>
-          </div>
-      </li>
-   </ul>
-
-
-</div>
-</div>
+        <div class="col-3">
+          <strong><%= current_user.email %><br></strong>
+          <%= current_user.name %>   
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

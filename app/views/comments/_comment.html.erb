@@ -1,13 +1,17 @@
 <div>
     <p>
-        <strong><%= (User.find(comment.user_id)).name %></strong>
-        <%= comment.created_at %>
+        <h4><strong><%= (User.find(comment.user_id)).name %></strong></h4>
+        <h6><%= comment.created_at %></h6>
     </p>
     <p>
-        <%= comment.comment %>
+        <h6><%= comment.comment %></h6>
     </p>
     <div>
-      <%= button_to 'Like', comment_likes_path(comment), method: :post %>
-      <p><%= comment.likes.count %> <%= (comment.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+    <% if (Like.where(user_id: current_user.id,likeable_type: "Comment",likeable_id: comment.id).exists?) %>
+        <%= button_to "Like", comment_likes_path(comment), method: :post,class: "btn btn-primary disabled" %>
+    <% else %>
+        <%= button_to "Like", comment_likes_path(comment), method: :post,class: "btn btn-primary" %>
+    <% end %>
+  <p><%= comment.likes.count %> <%= (comment.likes.count) == 1 ? 'Like' : 'Likes'%></p>
     </div>
 </div>
