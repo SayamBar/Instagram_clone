@@ -8,26 +8,46 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </head>
-  
 
-  <body>
+<style>
+  .insta-post {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+  }
+  .post-like {
+  background: #fff;
+  text-align: left;
+  padding: 15px;
+}
+    body {
+      background: #fafafa;
+    }
+</style>
+
+  <body class="bg-light">
     <div class="container-fluid">
       <div class="row">
         <div class="col-4"></div>
         <div class="col-4 ">
           <% @posts.each do |post| %>
-            <div class="border">
-            <%= render post %><br>
-            <% if (Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: post.id).exists?) %>
-              <%= button_to "Love", post_likes_path(post), method: :post,class: "btn btn-primary disabled" %>
-            <% else %>
-              <%= button_to "Love", post_likes_path(post), method: :post,class: "btn btn-primary" %>
-            <% end %>
-            <%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%>
-            <%= form_with model: [ post, post.comments.build ] do |form| %>
-              <%= form.text_field :comment, placeholder: "Add a comment" %>
-              <%= form.submit %>
-            <% end %>
+            <div class="insta-post">
+              <%= render post %><br>
+              <div class="post-like">
+                <% if (Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: post.id).exists?) %>
+                  <%= button_to "Love", post_likes_path(post), method: :post,class: "btn btn-primary disabled" %>
+                <% else %>
+                  <%= button_to "Love", post_likes_path(post), method: :post,class: "btn btn-primary" %>
+                <% end %>
+                
+                <p><strong><%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%></strong></p>
+                <p><%= (post.created_at) %></p>
+                <p><strong><%= User.find(post.user_id).name %></strong>  
+                <%= post.caption %></p>
+                <%= form_with model: [ post, post.comments.build ] do |form| %>
+                  <%= form.text_field :comment, placeholder: "Add a comment" %>
+                  <%= form.submit %>
+                <% end %>
+              </div>
             </div>
           <% end %>
         </div>

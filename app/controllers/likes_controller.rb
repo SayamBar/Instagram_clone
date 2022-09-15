@@ -10,6 +10,7 @@ class LikesController < ApplicationController
             redirect_to post_path(post)
         end
     end
+    
     private  
         def find
             if(params[:post_id])
