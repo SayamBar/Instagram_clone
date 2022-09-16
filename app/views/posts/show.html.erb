@@ -25,7 +25,7 @@
   </style>
 
   <body class="bg-light">
-    <div class="container-fluid">
+    <div class="container-fluid", style="margin-top:80px">
       <div class="row">
         <div class="col-4"></div>
         <div id="posts" class="col-4">
@@ -33,9 +33,9 @@
             <%= render @post %>
             <div class="post-like">
               <% if (Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: @post.id).exists?) %>
-                <%= link_to "Love", post_likes_path(@post), method: :post, class: "btn btn-primary disabled" %>
+                <%= link_to "", post_likes_path(@post), method: :post, class: "btn btn-primary disabled glyphicon glyphicon-heart" %>
               <% else %>
-                <%= link_to "Love", post_likes_path(@post), method: :post, class: "btn btn-primary" %>
+                <%= link_to "", post_likes_path(@post), method: :post, class: "btn btn-primary glyphicon glyphicon-heart" %>
               <% end %>
               <br>
               <p><strong><%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes'%></strong></p>
