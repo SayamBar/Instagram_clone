@@ -33,13 +33,13 @@
             <%= render @post %>
             <div class="post-like">
               <% if (Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: @post.id).exists?) %>
-                <%= link_to "", post_likes_path(@post), method: :post, class: "btn btn-primary disabled glyphicon glyphicon-heart" %>
+                <%= button_to "", post_like_path(@post), method: :delete, class: "btn btn-primary fa fa-heart" %>
               <% else %>
-                <%= link_to "", post_likes_path(@post), method: :post, class: "btn btn-primary glyphicon glyphicon-heart" %>
+                <%= button_to "", post_likes_path(@post), method: :post, class: "btn btn-primary fa fa-heart-o" %>
               <% end %>
               <br>
-              <p><strong><%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes'%></strong></p>
-              <p><%= (@post.created_at)  %></p>
+              <p><strong><%= @post.likes.count %> <%= (@post.likes.count) <= 1 ? 'Like' : 'Likes'%></strong></p>
+              <p><%= time_ago_in_words(@post.created_at) %> ago</p>
               <p><strong><%= User.find(@post.user_id).name %></strong>  
               <%= @post.caption %></p>
               <%= link_to "Edit this post", edit_post_path(@post) %> |
@@ -57,7 +57,7 @@
                 <%= form.text_field :comment, placeholder: "Add a comment" %>
               </p>
               <p>
-                <%= form.submit %>
+                <%= form.submit 'Add', class: "btn btn-primary" %>
               </p>
             <% end %>
           </div>

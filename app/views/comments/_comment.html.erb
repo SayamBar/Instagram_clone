@@ -8,9 +8,9 @@
     </p>
     <div>
     <% if (Like.where(user_id: current_user.id,likeable_type: "Comment",likeable_id: comment.id).exists?) %>
-        <%= button_to "Like", comment_likes_path(comment), method: :post,class: "btn btn-primary disabled" %>
+        <%= button_to "", comment_like_path(comment), method: :delete,class: "btn btn-primary fa fa-heart" %>
     <% else %>
-        <%= button_to "Like", comment_likes_path(comment), method: :post,class: "btn btn-primary" %>
+        <%= button_to "", comment_likes_path(comment), method: :post,class: "btn btn-primary fa fa-heart-o" %>
     <% end %>
   <p><%= comment.likes.count %> <%= (comment.likes.count) == 1 ? 'Like' : 'Likes'%></p>
     </div>

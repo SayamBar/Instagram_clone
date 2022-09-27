@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>Instagram</title>
-  <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag 'application',media:'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application','data-turbolinks-track': 'reload' %>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Instagram</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag 'application',media:'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application','data-turbolinks-track': 'reload' %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>    
   </head>
 
   <style>
@@ -36,26 +37,41 @@
               <%= render post %><br>
               <div class="post-like">
                 <% if (Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: post.id).exists?) %>
-                  <%= button_to "", post_likes_path(post), method: :post,class: "btn btn-primary disabled fa fa-heart" %>
+                  <%= button_to "", post_likes_path(post), method: :delete,class: "btn btn-primary fa fa-heart" %>
                 <% else %>
                   <%= button_to "", post_likes_path(post), method: :post,class: "btn btn-primary fa fa-heart-o" %>
                 <% end %>
                 
-                <p><strong><%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%></strong></p>
-                <p><%= (post.created_at) %></p>
+                <p><strong><%= post.likes.count %> <%= (post.likes.count) <= 1 ? 'Like' : 'Likes'%></strong></p>
+                <p><%= time_ago_in_words(post.created_at) %> ago</p>
                 <p><strong><%= User.find(post.user_id).name %></strong>  
                 <%= post.caption %></p>
                 <%= form_with model: [ post, post.comments.build ] do |form| %>
                   <%= form.text_field :comment, placeholder: "Add a comment" %>
-                  <%= form.submit %>
+                  <%= form.submit 'Add', class: "btn btn-primary" %>
                 <% end %>
               </div>
             </div>
           <% end %>
         </div>
         <div class="col-3">
-          <strong><%= link_to current_user.email,user_path(current_user) %><br></strong>
-          <%= current_user.name %>
+            <div class="insta-post post-like">
+              <div class="row">
+                <div class="col-2">
+                  <% if current_user.avatar.attached? %>
+                    <%= link_to image_tag(current_user.avatar,height:40,width:40,class: "rounded-circle"),user_path(current_user) %> 
+                  <% else %>
+                  
+                  <% end %>
+                </div>
+                <div class="col-10">
+                  <% @user = current_user %>
+                  <strong><%= link_to current_user.email,user_path(@user) %><br></strong>
+                  <%= current_user.name %>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
   </body>

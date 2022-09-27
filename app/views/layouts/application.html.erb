@@ -8,25 +8,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
   </head>
+
+  <style>
+    .sans-serif {
+      font-family: "sofia";
+    }
+  </style>
   
   
  
   <body class="bg-light">
   
     <nav class="navbar navbar-expand-lg bg-white navbar-fixed-top border">
-      <div class="container">
-        <a class="navbar-brand">Instagram Clone</a>
+      <div class="container navbar-brand sans-serif">
+        <span><i class="fa fa-instagram"></i>Instagram Clone</span>
       </div>
     
 
-      <div class="collapse navbar-collapse">
+      <div class="collapse navbar-collapse" id="navbarMain">
         <ul class="navbar-nav"> 
-          <li class="active">
-            <%= link_to '', root_path, class: "nav-item nav-link fa fa-home" %>
-          </li>
           
           <% if user_signed_in? %> 
+            <li class="active nav-item">
+              <%= link_to root_path, class: "nav-link" do %>
+                <span><i class="fa fa-home" aria-hidden="true"></i></span>
+              <% end %>
+            </li>
+            <li class="nav-item"> 
+              <%= link_to new_post_path, class: "nav-link"  do %>
+                <span><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+              <% end %>
+            </li>     
             <form class="navbar-form navbar-left">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search">
@@ -38,16 +52,14 @@
               </div>
             </form>
             
-            <li> 
-              <%= link_to "", new_post_path, class: "nav-link fa fa-plus-square-o" %>
-            </li>
-            <li>
+            
+            <li class="nav-item">
               <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "navbar-btn btn-danger btn-sm" %>
             </li>
           <% else %>
             <li class="nav-item">
               <%= link_to "Signup", new_user_registration_path, class: "nav-item nav-link fs-5" %>  
-            </li>
+            </li class="nav-item">
             <li class="nav-item"> 
               <%= link_to "Login", new_user_session_path, class: "nav-item nav-link fs-5 " %>
             </li>
@@ -55,12 +67,7 @@
         </ul>
       </div>
     </nav>  
-    <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
-    <% end %>
+    
     <%= yield %> 
   </body>
 </html>
