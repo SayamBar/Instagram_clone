@@ -34,7 +34,15 @@
     </div>
   </div>
   <% if post.image.attached? %>
-    <%= link_to image_tag(post.image,class: "img-fluid"),post %>
+    <div>
+        <% if post.image.image? %>
+            <%= link_to image_tag(post.image,class: "img-fluid"),post %>
+        <% elsif post.image.video? %>
+            <div>
+                <%= video_tag(url_for(post.image), controls: "", class:"video img-fluid") %>
+            </div>
+        <% end %>
+    </div>
   <% end %> 
 
 

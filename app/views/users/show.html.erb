@@ -35,7 +35,14 @@
         <div class="col-2"></div>
             <% (current_user.posts).each do |post| %>
                 <div class="col-2">
-                    <%= link_to image_tag(post.image,class: "img-fluid"),post %>
+                    <%# <%= link_to image_tag(post.image,class: "img-fluid"),post %> 
+                    <% if post.image.image? %>
+                        <%= link_to image_tag(post.image,class: "img-fluid"),post %>
+                    <% elsif post.image.video? %>
+                        <div>
+                            <%= video_tag(url_for(post.image), controls: "", class:"video img-fluid") %>
+                        </div>
+                    <% end %>
                 </div>
             <% end %>
         </div>

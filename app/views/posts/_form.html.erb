@@ -30,7 +30,15 @@
   <br>
   <div>
     <% if @post.image.attached? %>
-      <%= image_tag(post.image) %>
+      <div>
+        <% if @post.image.image? %>
+            <%= image_tag(@post.image) %>
+        <% elsif @post.image.video? %>
+            <div>
+                <%= video_tag(url_for(@post.image), controls: "", class:"video") %>
+            </div>
+        <% end %>
+    </div>
     <% end %>
     <div><%= form.file_field :image %></div><br>
   </div>
