@@ -26,7 +26,7 @@
   <div class="post-meta">
     <div class="row">
       <div class="col-1">
-        <%= link_to image_tag(User.find(post.user_id).avatar,height:40,width:40,class: "rounded-circle"), user_path(User.find(post.user_id)) %>
+        <%= link_to image_tag(post.user.avatar,height:40,width:40,class: "rounded-circle"), user_path(post.user.id) %>
       </div>
       <div class="col-11 name">
         <%= User.find(post.user_id).name %>
