@@ -12,6 +12,6 @@
     <% else %>
         <%= button_to "", comment_likes_path(comment), method: :post,class: "btn btn-primary fa fa-heart-o" %>
     <% end %>
-  <p><%= comment.likes.count %> <%= (comment.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+  <p><%= comment.likes.count %> <%= (comment.likes.count) <= 1 ? 'Like' : 'Likes'%></p>
     </div>
 </div>

@@ -8,4 +8,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
 
   has_one_attached :avatar
+
+  def self.authenticate(email, password)
+    u = User.find_for_authentication(email: email)
+    u&.valid_password?(password) ? true : false
+  end
 end

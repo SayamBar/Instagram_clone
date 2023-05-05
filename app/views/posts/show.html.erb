@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
   </head>
 
   <style>
@@ -35,16 +41,24 @@
               <% if (Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: @post.id).exists?) %>
                 <%= button_to "", post_like_path(@post), method: :delete, class: "btn btn-primary fa fa-heart" %>
               <% else %>
-                <%= button_to "", post_likes_path(@post), method: :post, class: "btn btn-primary fa fa-heart-o" %>
+                <%= button_to "",post_likes_path(@post), method: :post, class: "btn btn-primary fa fa-heart-o" %>
               <% end %>
               <br>
               <p><strong><%= @post.likes.count %> <%= (@post.likes.count) <= 1 ? 'Like' : 'Likes'%></strong></p>
               <p><%= time_ago_in_words(@post.created_at) %> ago</p>
               <p><strong><%= User.find(@post.user_id).name %></strong>  
               <%= @post.caption %></p>
-              <%= link_to "Edit this post", edit_post_path(@post) %> |
+              <div class="d-flex">
+                <% if current_user.id == @post.user_id %>
+                  <%= link_to edit_post_path(@post) do %> 
+                    <i class="fa-solid fa-pen-to-square text-warning fs-4 me-3 btn btn-info"></i>
+                  <% end %>
+                  <%= button_to @post, method: :delete , class:"btn btn-danger" do %>
+                    <i class="fa-solid fa-trash text-white fs-5"></i>
+                  <% end %>
+                <% end %>
+              </div>
               <%= link_to "Back to posts", posts_path %>
-              <%= button_to "Destroy this post", @post, method: :delete %>
             </div>
           </div>
         </div>
