@@ -9,6 +9,11 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  validates :name, presence: true
+  validates :bio, length: { maximum: 20 }
+  validates :gender, inclusion: ["male","female","others"]
+  validates :email, uniqueness: true
+
   def self.authenticate(email, password)
     u = User.find_for_authentication(email: email)
     u&.valid_password?(password) ? true : false
