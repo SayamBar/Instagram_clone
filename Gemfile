@@ -78,3 +78,6 @@ gem 'devise'
 gem 'bootstrap'
 
 gem 'jquery-rails'
+
+gem 'doorkeeper', '~> 5.4.0'
+

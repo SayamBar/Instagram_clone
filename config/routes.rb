@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  use_doorkeeper do
+    skip_controllers :authorizations, :applications, :authorized_applications
+  end
   devise_for :users
   resources :users
   resources :posts do
@@ -13,6 +16,12 @@ Rails.application.routes.draw do
 
   resources :comments do
     resources :likes
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :posts
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
