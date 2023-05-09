@@ -81,3 +81,6 @@ gem 'jquery-rails'
 
 gem 'doorkeeper', '~> 5.4.0'
 
+gem 'activeadmin'
+gem 'sassc-rails'
+
