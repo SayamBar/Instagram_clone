@@ -4,6 +4,6 @@ FactoryBot.define do
       password { "password" }
       name { "Admin" }
       bio { "Software Engineer" }
-      gender { "male" }
+      gender { "Male" }
     end
 end

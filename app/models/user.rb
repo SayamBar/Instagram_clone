@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   def self.authenticate(email, password)
     u = User.find_for_authentication(email: email)
-    u&.valid_password?(password) ? true : false
+    u&.valid_password?(password) ? u : nil
   end
   private
     def normalize_name

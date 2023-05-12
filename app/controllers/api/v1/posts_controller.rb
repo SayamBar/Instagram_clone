@@ -1,4 +1,5 @@
 class Api::V1::PostsController < Api::V1::ApplicationController
+    before_action :find_user, only: %i[create update destroy]
     def index
         @posts = Post.all
         render json:@posts, status: 200
@@ -19,4 +20,40 @@ class Api::V1::PostsController < Api::V1::ApplicationController
             render json:{error: "post not found" }
         end
     end
+    def create 
+        @post = Post.new(caption: params[:caption], user_id:@user.id)
+        # debugger
+        # @post.images.attach([params[:images]])
+        if @post.save
+            render json: @post, status: 200
+        else
+            render json: { error: "Post not created"}
+        end
+    end
+    def update
+        @post = Post.find(params[:id])
+        # debugger
+        if @post.user.id == @user.id
+            @post.update(caption:params[:caption], user_id:@user.id)
+            render json: @post
+        else
+            render json:{error: "You can't update this post." }
+        end
+    end
+    def destroy
+        @post = Post.find(params[:id])
+        if @post.user.id == @user.id
+            @post.destroy
+            render json: Post.all
+        else
+            render json:{error: "You can't delete the post" }
+        end
+    end
+
+    private
+        def find_user
+            @bearer_token = request.headers['Authorization']&.split(' ')&.last
+            @resource_owner = Doorkeeper::AccessToken.find_by(token:@bearer_token)
+            @user = User.find(@resource_owner.resource_owner_id)
+        end
 end
