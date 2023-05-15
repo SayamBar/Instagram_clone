@@ -39,6 +39,7 @@ ActiveAdmin.register Post do
   end
 
   filter :caption
+  filter :user, as: :check_boxes, collection: proc { User.all }
   config.per_page = 3
   menu priority: 1
 

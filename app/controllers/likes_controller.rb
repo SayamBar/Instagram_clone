@@ -13,6 +13,7 @@ class LikesController < ApplicationController
     def destroy
         if(params[:post_id])
             l = Like.where(user_id: current_user.id,likeable_type: "Post",likeable_id: @post.id)
+            # debugger
             Like.destroy(l.ids)
             redirect_to post_path(@post)
         else

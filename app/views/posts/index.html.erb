@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-4"></div>
         <div class="col-4 ">
-          <% @posts.reverse.each do |post| %>
+          <% @posts.sort_by(&:created_at).reverse.each do |post| %>
             <div class="insta-post">
               <%= render post %><br>
               <div class="post-like">

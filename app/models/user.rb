@@ -24,6 +24,9 @@ class User < ApplicationRecord
     u = User.find_for_authentication(email: email)
     u&.valid_password?(password) ? u : nil
   end
+
+  # search_methods :gender_eq
+  # scope :gender_eq, -> (gender) { where("? LIKE ANY(genders)", gender) }
   private
     def normalize_name
       self.name = name.downcase.titleize

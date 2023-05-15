@@ -12,6 +12,17 @@ class Post < ApplicationRecord
 
   scope :recent, -> { where("updated_at > ?",5.days.ago) }
 
+  around_create :time_create
+
+  # private
+
+  def time_create
+    start_time = Time.now
+    yield
+    end_time = Time.now
+    puts "Time taken: #{end_time - start_time} seconds"
+  end
+
   def log_destroy_action
     puts "Post destroyed"
   end
