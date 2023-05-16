@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe "validation test" do
-    let(:user_1) { User.new(email:"jhwkrtn.com",password:"907306",name:"sayam bar",gender:"male")}
-    let(:user_2) { User.new(email:"jhwkrtn@gmail.com",password:"907306",name:"sayam bar",gender:"male")}
-    let(:user_3) { User.new(email:"jhwkrtn@gmail.com",password:"907306",name:"sayam bar",gender:"male")}
+    let(:user_1) { User.new(email:"jhwkrtn.com",password:"907306",name:"sayam bar",gender:"Male")}
+    let(:user_2) { User.new(email:"jhwkrtn@gmail.com",password:"907306",name:"sayam bar",gender:"Male")}
+    let(:user_3) { User.new(email:"jhwkrtn@gmail.com",password:"907306",name:"sayam bar",gender:"Male")}
     # let!(:user_3) { User.create()}
     context "when the email is invalid" do
       it 'ensures user cannot be created' do
@@ -27,19 +27,20 @@ RSpec.describe User, type: :model do
     let!(:user1) { create(:user) }
     context "when the password is correct" do
       it "ensures log in the user" do
-        expect(User.authenticate("admin@gmail.com", "password")).to eq(true)
+        # debugger
+        expect(User.authenticate("admin@gmail.com", "password")).to eq(user1)
       end
     end
     context "when the password is incorrect" do
       it "ensures user can't log in" do
-        expect(User.authenticate("admin@gmail.com", "passwords")).to eq(false)
+        expect(User.authenticate("admin@gmail.com", "passwords")).to eq(nil)
       end
     end
   end
 
   describe "length of user's bio test" do
-    let(:user) { User.new(email: "test@example.com", password: "password", name:"test", bio:"wjhfbhbje iuwhfjiwehbifj iuwhifjwhf iwhfiwheqf iqhwnkjwqnfjk",gender:"others")}
-    let(:user1) { User.new(email: "test123@example.com", password: "password", name:"test", bio:"wfjhwbejf",gender:"others")}
+    let(:user) { User.new(email: "test@example.com", password: "password", name:"test", bio:"wjhfbhbje iuwhfjiwehbifj iuwhifjwhf iwhfiwheqf iqhwnkjwqnfjk",gender:"Others")}
+    let(:user1) { User.new(email: "test123@example.com", password: "password", name:"test", bio:"wfjhwbejf",gender:"Others")}
     context "when exceeds the length of bio" do
       it "ensures user can't be saved" do
         expect(user.save).to eq(false)

@@ -3,7 +3,12 @@ class PostsController < UsersController
   before_action :set_post, only: %i[ show edit update destroy ]
 
   # GET /posts or /posts.json
-  
+  # rescue_from ActionController::RoutingError, with: :handle_routing_error
+
+  # def handle_routing_error
+  #  # Custom logic for handling routing errors
+  #  render plain: 'Route not found', status: :not_found
+  # end
 
   def index
     @posts = Post.all
@@ -72,4 +77,5 @@ class PostsController < UsersController
     def post_params
       params.require(:post).permit(:caption, :image)
     end
+
 end

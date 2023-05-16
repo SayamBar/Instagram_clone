@@ -40,10 +40,11 @@ RSpec.describe Post, type: :model do
     end
     
     let(:post1) { create(:post ,user_id:user1.id) }
-    let!(:user2) { User.create(email:"bar@gmail.com", password:"123456", name:"bar", bio:"rgerg ergehj", gender:"male")}
+    let!(:user2) { User.create(email:"bar@gmail.com", password:"123456", name:"bar", bio:"rgerg ergehj", gender:"Male")}
     let!(:like1) { Like.create(user_id:user2.id, likeable_type:"Post", likeable_id:post1.id)}
     context "when anyone like a post" do
       it "ensures number of likes increase for the post" do
+        # debugger
         expect(post1.likes.count).to eq(1)
       end
     end

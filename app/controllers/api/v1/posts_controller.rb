@@ -1,5 +1,6 @@
 class Api::V1::PostsController < Api::V1::ApplicationController
     before_action :find_user, only: %i[create update destroy]
+    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     def index
         @posts = Post.all
         render json:@posts, status: 200
@@ -56,4 +57,9 @@ class Api::V1::PostsController < Api::V1::ApplicationController
             @resource_owner = Doorkeeper::AccessToken.find_by(token:@bearer_token)
             @user = User.find(@resource_owner.resource_owner_id)
         end
+        def record_not_found
+            # Custom logic for handling a record not found error
+            render plain: 'Record not found', status: :not_found
+        end
+
 end
