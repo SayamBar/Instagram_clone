@@ -26,9 +26,9 @@ class Api::V1::PostsController < Api::V1::ApplicationController
         # debugger
         # @post.images.attach([params[:images]])
         if @post.save
-            render json: @post, status: 200
+            render json: @post, status: 201
         else
-            render json: { error: "Post not created"}
+            render json: { error: "Post not created"}, status: :unprocessable_entity
         end
     end
     def update
@@ -38,7 +38,7 @@ class Api::V1::PostsController < Api::V1::ApplicationController
             @post.update(caption:params[:caption], user_id:@user.id)
             render json: @post
         else
-            render json:{error: "You can't update this post." }
+            render json:{error: "You can't update this post." }, status: 403
         end
     end
     def destroy
@@ -47,7 +47,7 @@ class Api::V1::PostsController < Api::V1::ApplicationController
             @post.destroy
             render json: Post.all
         else
-            render json:{error: "You can't delete the post" }
+            render json:{error: "You can't delete the post" }, status: 403
         end
     end
 

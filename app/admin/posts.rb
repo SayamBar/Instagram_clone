@@ -5,7 +5,7 @@ ActiveAdmin.register Post do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :caption, :user_id
+  permit_params :caption, :user_id, :image
   #
   # or
   #
@@ -47,5 +47,14 @@ ActiveAdmin.register Post do
   scope :recent
   action_item :view,only: :show do
     link_to "View on site", post
+  end
+  # belongs_to :user
+  form do |f|
+    f.inputs do
+      f.input :user
+      f.input :caption
+      f.input :image, as: :file
+    end
+    f.actions
   end
 end

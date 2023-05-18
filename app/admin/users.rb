@@ -5,7 +5,7 @@ ActiveAdmin.register User do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :email, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :name, :website, :bio, :gender
+  permit_params :email, :password, :name, :website, :bio, :gender, :avatar
   #
   # or
   #
@@ -14,9 +14,27 @@ ActiveAdmin.register User do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+
+  # sidebar "Post Details", only: [:show, :edit] do
+  #   ul do
+  #     li link_to "All Posts", admin_user_posts_path(resource)
+  #   end
+  # end
   # filter :Sex, as: :select, collection: %w["Male" "Female" "Others"]
-  filter :gender, as: :select, collection: %w[Male Female Others]
+  filter :gender, as: :check_boxes, collection: %w[Male Female Others]
   # filter :posts, as: :check_boxes, collection: proc { Post.all }
   filter :name, filters: [:starts_with, :ends_with]
   # filter :admin, as: :check_boxes
+  form do |f|
+    f.inputs do
+      f.input :email
+      f.input :password
+      f.input :name
+      f.input :website
+      f.input :bio
+      f.input :gender
+      f.input :avatar, as: :file
+    end
+    f.actions
+  end
 end
