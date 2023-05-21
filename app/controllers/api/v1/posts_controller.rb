@@ -28,7 +28,7 @@ class Api::V1::PostsController < Api::V1::ApplicationController
             # debugger
             render json: @res, status: 200
         else
-            render json:{error: "post not found" }
+            render json:{error: "post not found" }, status: 404
         end
     end
     def create 
@@ -49,7 +49,7 @@ class Api::V1::PostsController < Api::V1::ApplicationController
         else
             if @post.user.id == @user.id
                 @post.update(caption:params[:caption], user_id:@user.id)
-                render json: @post
+                render json: @post, status: 200
             else
                 render json:{error: "You can't update this post." }, status: 403
             end
@@ -63,7 +63,7 @@ class Api::V1::PostsController < Api::V1::ApplicationController
         else
             if @post.user.id == @user.id
                 @post.destroy
-                render json: Post.all
+                render json: Post.all, status: 200
             else
                 render json:{error: "You can't delete the post" }, status: 403
             end
