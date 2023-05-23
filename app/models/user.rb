@@ -14,10 +14,10 @@ class User < ApplicationRecord
   validates :gender, inclusion: ["Male","Female","Others"]
   validates :email, uniqueness: true
 
-  after_initialize do |user|
-    puts "You have initialized an object!"
-  end
-  before_validation :normalize_name, on: :create
+  # after_initialize do |user|
+  #   puts "You have initialized an object!"
+  # end
+  before_validation :normalize_name
   before_create :attach_avatar
   after_commit :send_welcome_mail, on: :create
   # before_destroy :delete_avatar, on: :delete
@@ -29,13 +29,13 @@ class User < ApplicationRecord
 
   private
     def normalize_name
-      self.name = name.downcase.titleize
       # debugger
+      self.name = name.downcase.titleize
     end
 
     def attach_avatar
       # debugger
-      self.avatar.attach(io: File.open("../Downloads/user.jpg"),filename: 'user.jpg', content_type: 'image/jpg') if !self.avatar.attached?
+      self.avatar.attach(io: File.open("../Downloads/user.jpeg"),filename: 'user.jpeg', content_type: 'image/jpeg') if !self.avatar.attached?
       # debugger
     end
 
@@ -43,6 +43,7 @@ class User < ApplicationRecord
       # debugger
       UserMailer.with(user: self).welcome_email.deliver_later
     end
+    
     # def delete_avatar
     #   self.avatar.purge if self.avatar.attached?
     # end

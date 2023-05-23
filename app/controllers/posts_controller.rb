@@ -34,7 +34,7 @@ class PostsController < UsersController
 
   # POST /posts or /posts.json
   def create
-    debugger
+    # debugger
     @post = current_user.posts.create(post_params)
 
     if @post.valid?

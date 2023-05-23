@@ -24,8 +24,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :posts
       get '/postsofcurrentuser', to: 'posts#postsofcurrentuser'
-      get '/likes/:post_id', to: 'posts#likescount'
-      get '/comments/:post_id', to: 'posts#showcomments'
+      get '/likes/:id', to: 'posts#likescount'
+      get '/comments/:id', to: 'posts#showcomments'
+      post '/comments', to: 'posts#createcomment'
     end
   end
 

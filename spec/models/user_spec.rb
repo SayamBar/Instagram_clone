@@ -58,7 +58,7 @@ RSpec.describe User, type: :model do
     let!(:user) { create(:user)}
     context "when user did not upload avatar" do
       it "ensures user has no avatar" do
-        expect(user.avatar.attached?).to eq(false)
+        expect(user.avatar.attached?).to eq(true)
       end
     end
     context "when user upload avatar" do

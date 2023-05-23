@@ -14,22 +14,24 @@ ActiveAdmin.register Post do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  index do
-    id_column
-    column :caption
+  index do 
+    selectable_column
+    id_column 
+    column :caption 
     actions
   end
  
  
   index as: :grid do |post|
-    link_to post.caption, admin_post_path(post)
+    resource_selection_cell post 
+    h2 auto_link link_to post.caption, admin_post_path(post)
   end
  
  
   index as: :block do |post|
     div for: post do
       resource_selection_cell post
-      h2  auto_link     post.caption
+      h2  auto_link link_to post.caption, admin_post_path(post)
     end
   end
  
@@ -40,6 +42,7 @@ ActiveAdmin.register Post do
 
   filter :caption
   filter :user, as: :check_boxes, collection: proc { User.all }
+  filter :created_at, as: :date_range, label: 'Creation Date Range'
   config.per_page = 3
   menu priority: 1
 

@@ -1,22 +1,19 @@
 class Api::V1::PostsController < Api::V1::ApplicationController
-    before_action :find_user, only: %i[create update destroy postsofcurrentuser]
+    before_action :find_user, only: %i[create update destroy postsofcurrentuser createcomment]
+    before_action :find_post, only: %i[show update destroy likescount showcomments createcomment]
+    before_action :check_user, only: %i[update destroy]
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     def index
         if params[:caption_starts_with]
             # debugger
             @posts = Post.where("caption LIKE ?", "#{params[:caption_starts_with]}%")
-            if @posts.empty?
-                render json:{ error: "No records found" }, status: 404
-            else
-                render json:@posts, status: 200
-            end
+            render json:@posts, status: 200
         else
             @posts = Post.all
             render json:@posts, status: 200
         end
     end
     def show
-        @post = Post.find(params[:id])
         @res = {}
         @url = []
         if @post.image.attached?
@@ -42,12 +39,11 @@ class Api::V1::PostsController < Api::V1::ApplicationController
         end
     end
     def update
-        @post = Post.find_by(id: params[:id])
         # debugger
         if @post.nil?
             render json:{ error: "No records found" }, status: 404
         else
-            if @post.user.id == @user.id
+            if @f
                 @post.update(caption:params[:caption], user_id:@user.id)
                 render json: @post, status: 200
             else
@@ -56,12 +52,11 @@ class Api::V1::PostsController < Api::V1::ApplicationController
         end
     end
     def destroy
-        @post = Post.find_by(id: params[:id])
         # debugger
         if @post.nil?
-            render json:{}, status: 404
+            render json:{error: "Post Not Found "}, status: 404
         else
-            if @post.user.id == @user.id
+            if @f
                 @post.destroy
                 render json: Post.all, status: 200
             else
@@ -76,12 +71,19 @@ class Api::V1::PostsController < Api::V1::ApplicationController
 
     def likescount
         # debugger
-        @post = Post.find(params[:post_id])
+        render json: { error: "Post Not Found "}, status: 404 if @post.nil?
         render json: @post.likes.count, status: 200
     end
 
     def showcomments
-        @post = Post.find(params[:post_id])
+        render json: { error: "Post Not Found "}, status: 404 if @post.nil?
+        render json: @post.comments, status: 200
+    end
+
+    def createcomment
+        # debugger
+        render json: { error: "Post Not Found "}, status: 404 if @post.nil?
+        @post.comments.create(comment: params[:comment], user_id: @user.id)
         render json: @post.comments, status: 200
     end
 
@@ -94,6 +96,12 @@ class Api::V1::PostsController < Api::V1::ApplicationController
         def record_not_found
             # Custom logic for handling a record not found error
             render plain: 'Record not found', status: :not_found
+        end
+        def find_post
+            @post = Post.find(params[:id])
+        end
+        def check_user
+            @f = (@post.user.id == @user.id)
         end
 
 end

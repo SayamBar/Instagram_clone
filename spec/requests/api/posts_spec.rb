@@ -36,12 +36,12 @@ RSpec.describe "Api::Posts", type: :request do
     end 
 
     context "with a valid access token and params" do
-      it "returns record not found" do
+      it "returns empty array" do
         get api_v1_posts_path,params: {caption_starts_with: "abc"}, headers: { 
           "Authorization" => "Bearer #{access_token.token}" 
         }
         # debugger
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(200)
       end
 
       let!(:post) { create(:post, user_id: user.id) }
