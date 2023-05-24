@@ -20,10 +20,19 @@ ActiveAdmin.register User do
   #     li link_to "All Posts", admin_user_posts_path(resource)
   #   end
   # end
-  # filter :Sex, as: :select, collection: %w["Male" "Female" "Others"]
+  index do 
+    selectable_column
+    id_column 
+    column :email
+    column :name
+    column :bio
+    column :gender 
+    actions
+  end
   filter :gender, as: :check_boxes, collection: %w[Male Female Others]
   # filter :posts, as: :check_boxes, collection: proc { Post.all }
   filter :name, filters: [:starts_with, :ends_with]
+  filter :created_at, as: :date_range, label: 'Account Creation Date Range'
   # filter :admin, as: :check_boxes
   form do |f|
     f.inputs do

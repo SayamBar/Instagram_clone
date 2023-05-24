@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   validates :caption, presence: true
   validates :user_id, presence: true
 
-  after_destroy :log_destroy_action
+  after_destroy :destroy_all_likes
   after_commit :log_post_saved_to_db, on: :create
 
   scope :recent, -> { where("updated_at > ?",5.days.ago) }
@@ -23,8 +23,8 @@ class Post < ApplicationRecord
     puts "Time taken: #{end_time - start_time} seconds"
   end
 
-  def log_destroy_action
-    puts "Post destroyed"
+  def destroy_all_likes
+    likes.destroy_all
   end
 
   def log_post_saved_to_db

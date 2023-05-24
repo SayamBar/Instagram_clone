@@ -18,6 +18,7 @@ ActiveAdmin.register Post do
     selectable_column
     id_column 
     column :caption 
+    column 'Owner', :user
     actions
   end
  
